@@ -11,9 +11,9 @@
 let links = document.links;
 let btnS = document.querySelectorAll(".search")[0];
 let bingInput = document.getElementsByName("q")[0];
-let keywords = ["10 самых популярных шрифтов от Google",
-                "Отключение редакций и ревизий в WordPress",
-                "Вывод произвольных типов записей и полей в WordPress"]
+let keywords = ["Алый вечер над синей рекою",
+                "Секреты облаков",
+                "Август - не лето"]
 let keyword = keywords[getRandom(0, keywords.length)];
 
 if (btnS != undefined) {
@@ -21,7 +21,7 @@ if (btnS != undefined) {
 btnS.click();
 } else {
 for (let i = 0; i < links.length; i++) {
-    if(links[i].href.indexOf("napli.ru") != -1) {
+    if(links[i].href.indexOf("stihi.ru") != -1) {
         console.log("Нашел строку " + links[i]);
         links[i].click();
         break;
