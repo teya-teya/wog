@@ -37,17 +37,17 @@ if (btnY != undefined) {
       btnY.click();
     }
   }, 700)
-  } else if (location.hostname == "stihi.ru" || location.hostname == "o.stihi.ru" || location.hostname == "shop.stihi.ru") {
+  } else if (location.hostname == "stihi.ru") {
     console.log("Мы на целовом сайте");
     setInterval(() => {
       let index = getRandom(0, links.length);
       if (getRandom(0, 101) >= 75) {
-      location.href = "https://ya.ru/";
-          }
+        location.href = "https://ya.ru/";
+      }
       if (links.length == 0) {
         location.href = "https://stihi.ru/";
       }
-      if (links[index].href.indexOf("stihi.ru", "o.stihi.ru", "shop.stihi.ru")) {
+      if (links[index].href.indexOf("stihi.ru") || links[index].href.indexOf("o.stihi.ru") || links[index].href.indexOf("shop.stihi.ru")) {
         links[index].click()
       }
     }, getRandom(3000, 5000))
@@ -55,7 +55,7 @@ if (btnY != undefined) {
     // Работаем на странице поисковой выдачи
     let nextYaPage = true;
     for (let i = 0; i < links.length; i++) {
-      if(links[i].href.indexOf("stihi.ru", "o.stihi.ru", "shop.stihi.ru") != -1) {
+      if(links[i].href.indexOf("stihi.ru") != -1 || links[i].href.indexOf("o.stihi.ru") != -1 || links[i].href.indexOf("shop.stihi.ru") != -1) {
         console.log("Нашел строку " + links[i]);
         let link = links[i];
         nextYaPage = false;
@@ -73,7 +73,7 @@ if (btnY != undefined) {
         clearInterval(elementExist);
       }
     }, 100)
-    
+
     // Если не нашли на первой странице выдачи, то листаем дальше
     if (nextYaPage) {
       let nextPage = document.querySelector(".VanillaReact.Pager-Item.Pager-Item_type_next");
