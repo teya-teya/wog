@@ -43,6 +43,7 @@
                 onblur="this.placeholder = 'Имя'"
                 autocomplete="name"
                 minlength="3"
+                required
               />
             </div>
             <div class="col-md-12 form-group">
@@ -55,6 +56,7 @@
                 onblur="this.placeholder = 'Фамилия'"
                 autocomplete="family-name"
                 minlength="3"
+                required
               />
             </div>
             <div class="col-md-12 form-group">
@@ -66,6 +68,7 @@
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'Email'"
                 autocomplete="email"
+                required
               />
             </div>
             <div class="col-md-12 form-group">
@@ -77,12 +80,13 @@
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'Пароль'"
                 autocomplete="new-password"
+                required
               />
             </div>
             <p id="info" style="color:red"></p>
             <div class="col-md-12 form-group">
               <div class="creat_account">
-                <input type="checkbox" id="f-option2" />
+                <input type="checkbox" id="f-option2" required/>
                 <label for="f-option2">Согласие на обработку персональных данных</label>
               </div>
             </div>

@@ -2,10 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
@@ -66,13 +63,22 @@
             >
               <div class="row">
                 <div class="col-sm-4">
-                  <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D&w=300&q=70" alt="" width="100%">
+                  <img
+                    src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D&w=300&q=70"
+                    alt=""
+                    width="100%"
+                  />
                 </div>
                 <div class="col-sm-8">
-                  <h2>Василий Васильев</h2>
-                  <p>Email: <span>vasya@bk.ru</span></p>
-                  <h3>О себе рассказывает</h3>
-                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque fuga non veritatis minus. Accusamus rerum officia voluptas, non impedit laudantium placeat ex quaerat iste provident quas eum ab beatae. Doloremque.</p>
+                  <h2 id="userName"></h2>
+                  <p>Email: <span id="userMail"></span></p>
+                  <h3>ID: <span id="userId"></span></h3>
+                  <p>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Atque fuga non veritatis minus. Accusamus rerum officia
+                    voluptas, non impedit laudantium placeat ex quaerat iste
+                    provident quas eum ab beatae. Doloremque.
+                  </p>
                 </div>
               </div>
             </div>
@@ -82,7 +88,19 @@
               role="tabpanel"
               aria-labelledby="v-pills-messages-tab"
             >
-              Страница сообщений
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">Email</th>
+                  </tr>
+                </thead>
+                <tbody id="usersListTable">
+                  <!-- Данные после запроса -->
+                </tbody>
+              </table>
             </div>
             <div
               class="tab-pane fade"
@@ -111,6 +129,14 @@
       let pathname = location.pathname.split("/")[2];
       let navLinks = document.querySelectorAll(".nav-link");
 
+      async function getUser() {
+        let response = await fetch("/getUser");
+        return await response.json();
+      }
+      async function getUsers() {
+        let response = await fetch("/getUsers");
+        return await response.json();
+      }
       addEventListener("popstate", (event) => {
         let pathPop = location.pathname.split("/")[2];
         if (pathPop == "profile") {
@@ -123,8 +149,30 @@
       });
 
       if (pathname == "profile") {
+        getUser().then((user) => {
+          userName.innerText = `${user.name} ${user.lastname}`;
+          userMail.innerText = `${user.email}`;
+          userId.innerText = `${user.id}`;
+        });
+
         $("#v-pills-profile").tab("show");
       } else if (pathname == "messages") {
+        getUsers().then((users) => {
+          for (let i = 0; i < users.length; i++) {
+            usersListTable.insertAdjacentHTML(
+							"beforeend",
+							`
+							<tr>
+								<th scope="row">${users[i].id}</th>
+								<td>${users[i].name}</td>
+								<td>${users[i].lastname}</td>
+								<td>${users[i].email}</td>
+							</tr>
+						`
+          );
+          }
+        });
+
         $("#v-pills-messages").tab("show");
       } else if (pathname == "settings") {
         $("#v-pills-settings").tab("show");
@@ -134,7 +182,9 @@
 
       for (let i = 0; i < navLinks.length; i++) {
         navLinks[i].addEventListener("click", () => {
-          let page = navLinks[i].getAttribute("aria-controls").split("v-pills-")[1];
+          let page = navLinks[i]
+            .getAttribute("aria-controls")
+            .split("v-pills-")[1];
           console.log(page);
           history.pushState("", "", page);
         });

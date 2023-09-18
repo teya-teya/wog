@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 class User
 {
   private $name;
@@ -54,22 +54,36 @@ class User
   static function authUser($email, $pass)
   {
     global $mysqli;
-
     $email = mb_strtolower(trim($email));
     $pass = trim($pass);
 
     $result = $mysqli->query("SELECT * FROM `users` WHERE `email`='$email'");
-
     $result = $result->fetch_assoc();
 
     if (password_verify($pass, $result["pass"])) {
+      $_SESSION["id"] = $result["id"];
       return json_encode(["result" => "exist"]);
-      // $_SESSION["id"] = $result["id"];
-      // $_SESSION["name"] = $result["name"];
-      // $_SESSION["lastname"] = $result["lastname"];
-      // $_SESSION["email"] = $result["email"];
     } else {
       return json_encode(["result" => "no exist"]);
     }
+  }
+
+  //Статический метод получения данных одного пользователя
+  static function getUser($userId) {
+    global $mysqli;
+    $result = $mysqli->query("SELECT `name`, `lastname`, `email`, `id` FROM `users` WHERE `id`='$userId'");
+    $result = $result->fetch_assoc();
+    return json_encode($result);
+  }
+
+  //Статический метод получения всех записей в базе данных
+  static function getUsers() {
+    global $mysqli;
+    $result = $mysqli->query("SELECT `name`, `lastname`, `email`, `id` FROM `users` WHERE 1");
+
+    while($row = $result->fetch_assoc()) {
+      $users[] = $row;
+    }
+    return json_encode($users);
   }
 }

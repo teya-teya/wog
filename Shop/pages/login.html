@@ -3,12 +3,12 @@
   <div class="container h-100">
     <div class="blog-banner">
       <div class="text-center">
-        <h1>Авторизация / Регистрация</h1>
+        <h1>Вход / Регистрация</h1>
         <nav aria-label="breadcrumb" class="banner-breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Главная</a></li>
             <li class="breadcrumb-item active" aria-current="page">
-              Авторизация / Регистрация
+              Вход / Регистрация
             </li>
           </ol>
         </nav>
@@ -74,7 +74,6 @@
             <div class="col-md-12 form-group">
               <button
                 type="submit"
-                value="submit"
                 class="button button-login w-100"
               >
                 Войти
@@ -88,6 +87,25 @@
   </div>
 </section>
 <!--================End Login Box Area =================-->
+<!-- Модальное окно -->
+<div
+  class="modal fade"
+  id="myModal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Авторизация прошла успешно</h5>
+      </div>
+      <div class="modal-body">Вы будете перенаправлены на страницу личного кабинета через 3 секунды.</div>
+    </div>
+  </div>
+</div>
 <script>
   let info = document.getElementById("info");
 
@@ -100,9 +118,14 @@
     });
     let outcome = await response.json();
     if (outcome.result == "exist") {
-      location.href = "users/profile";
+      $("#myModal").modal("show");
+      setTimeout(() => {
+        location.href = "users/profile";
+      }, 3000);
     } else if (outcome.result == "no exist") {
       info.innerText = "Неверные логин или пароль";
+    } else {
+      alert("Неизвестная ошибка");
     }
   }
 </script>
